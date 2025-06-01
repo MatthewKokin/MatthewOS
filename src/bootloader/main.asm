@@ -26,14 +26,15 @@ ebr_volume_label:           DB 'MatthewOS  '  ; Must be exactly 11 bytes
 ebr_system_id:              DB 'FAT12   '     ; Must be exactly 8 bytes
 
 
+; Initialise data, extra and stack segments
 main:
-    MOV ax, 0
-    MOV ds, ax
-    MOV es, ax
-    MOV ss, ax
+    MOV AX, 0
+    MOV DS, AX
+    MOV ES, AX
+    MOV SS, AX
 
-    MOV sp, 0x7C00
-    MOV si, os_boot_msg
+    MOV SP, 0x7C00
+    MOV SI, os_boot_msg
     CALL print
     HLT
 
