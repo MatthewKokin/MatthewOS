@@ -5,7 +5,7 @@ JMP SHORT main
 NOP
 
 bdb_oem:         DB     'MSWIN4.1'
-bdb_bytes_per_sector:       DW 512
+bdb_bytes_per_sector:       DW 512 ; (0x0200 in hex)
 bdb_sectors_per_cluster:    DB 1
 bdb_reserved_sectors:       DW 1
 bdb_fat_count:              DB 2
@@ -28,7 +28,7 @@ ebr_system_id:              DB 'FAT12   '     ; Must be exactly 8 bytes
 
 ; Initialise data, extra and stack segments
 main:
-    MOV AX, 0
+    MOV AX, 0x0000
     MOV DS, AX
     MOV ES, AX
     MOV SS, AX
@@ -42,13 +42,13 @@ halt:
     JMP halt
 
 print:
-    PUSH si
-    PUSH ax
-    PUSH bx
+    PUSH SI
+    PUSH AX
+    PUSH BX
 
 print_loop:
     LODSB
-    OR al,al
+    OR AL,AL
     JZ done_print
 
     MOV ah, 0x0E
@@ -63,7 +63,7 @@ done_print:
     POP si
     RET
 
-os_boot_msg: DB "Welcome to MatthewOS.", 0x0D, 0x0A, 0
+os_boot_msg: DB "Welcome to MatthewOS.", 0x0D, 0x0A, 0x00
 
 TIMES 510-($-$$) DB 0
-DW 0AA55h
+DW 0xAA55
